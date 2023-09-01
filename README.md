@@ -78,6 +78,8 @@ The application includes a comprehensive testing suite with _unit_ and _function
 - **Unit Tests**: These tests validate individual components and functions of the application, ensuring correctness in parsing and conversions. The unit tests are defined in tests/1_unit-tests.js.
 - **Functional Tests**: These tests check the overall functionality of the API by making HTTP requests to various endpoints and verifying the responses. The functional tests are defined in ```tests/2_functional-tests.js```.
 
+To run the tests, you can use the following command: **```npm test```**
+
 ## Contributing
 If you would like to contribute to this project, please follow these guidelines:
 
