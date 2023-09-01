@@ -1,8 +1,8 @@
 const objParser = (str, init) => {
   // finds objects, arrays, strings, and function arguments
   // between parens, because they may contain ','
-  let openSym = ["[", "{", '"', "'", "("];
-  let closeSym = ["]", "}", '"', "'", ")"];
+  const openSym = ["[", "{", '"', "'", "("];
+  const closeSym = ["]", "}", '"', "'", ")"];
   let type;
   let i;
   for (i = init || 0; i < str.length; i++) {
@@ -26,22 +26,17 @@ const objParser = (str, init) => {
   }
   if (count !== 0) return null;
   let obj = str.slice(i, k + 1);
-  return {
-    start: i,
-    end: k,
-    obj: obj,
-  };
+  return { start: i, end: k, obj };
 };
 
 const replacer = (str) => {
   // replace objects with a symbol ( __#n)
   let obj;
   let cnt = 0;
-  let data = [];
+  const data = [];
   while ((obj = objParser(str))) {
     data[cnt] = obj.obj;
-    str =
-      str.substring(0, obj.start) + "__#" + cnt++ + str.substring(obj.end + 1);
+    str = str.substring(0, obj.start) + "__#" + cnt++ + str.substring(obj.end + 1);
   }
   return { str: str, dictionary: data };
 };

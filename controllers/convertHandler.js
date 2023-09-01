@@ -15,18 +15,14 @@ function ConvertHandler() {
     const parts = numericInput.split("/");
     if (parts.length > 2) return null; // Invalid input with more than one '/'
 
+    // Handle fractions by dividing the numerator and denominator
     if (parts.length === 2) {
-      // Handle fractions by dividing the numerator and denominator
       const numerator = +parts[0];
       const denominator = +parts[1];
-
-      return isNaN(numerator) || isNaN(denominator) //|| denominator === 0
-        ? null
-        : numerator / denominator;
+      return isNaN(numerator) || isNaN(denominator) ? null : numerator / denominator;
     } else {
       // Handle whole numbers or decimals
-      const number = +numericInput;
-      return isNaN(number) ? null : number;
+      return isNaN(+numericInput) ? null : +numericInput;
     }
   };
 
@@ -35,11 +31,7 @@ function ConvertHandler() {
     const unit = input.slice(input.toLowerCase().search(/[a-zA-Z]/));
     const newUnit = unit.toLowerCase();
 
-    return validUnits.includes(newUnit)
-      ? newUnit
-      : newUnit === "l"
-      ? "L"
-      : null;
+    return validUnits.includes(newUnit) ? newUnit : newUnit === "l" ? "L" : null;
   };
 
   this.getReturnUnit = (initUnit) => {
@@ -95,16 +87,9 @@ function ConvertHandler() {
   };
 
   this.getString = (initNum, initUnit, returnNum, returnUnit) =>
-    initNum === null ||
-    initUnit === null ||
-    returnNum === null ||
-    returnUnit === null
-      ? null
-      : `${initNum} ${this.spellOutUnit(
-          initUnit
-        )} converts to ${returnNum.toFixed(5)} ${this.spellOutUnit(
-          returnUnit
-        )}`;
+    initNum === null || initUnit === null || returnNum === null ||returnUnit === null
+    ? null
+    : `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum.toFixed(5)} ${this.spellOutUnit(returnUnit)}`;
 }
 
 module.exports = ConvertHandler;

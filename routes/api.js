@@ -4,15 +4,13 @@
   const ConvertHandler = require("../controllers/convertHandler.js");
 
   module.exports = (app) => {
-    let convertHandler = new ConvertHandler();
+    const convertHandler = new ConvertHandler();
 
     app.route("/api/convert").get((req, res) => {
       const input = req.query.input;
       const initNum = convertHandler.getNum(input);
       const initUnit = convertHandler.getUnit(input);
 
-      // Now you can use the methods of ConvertHandler to process the input
-      // and generate the response data.
       const returnNum = convertHandler.convert(initNum, initUnit);
       const returnUnit = convertHandler.getReturnUnit(initUnit);
       const string = convertHandler.getString( initNum, initUnit, returnNum, returnUnit);

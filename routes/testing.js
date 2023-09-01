@@ -5,29 +5,19 @@ const fs = require("fs");
 const runner = require("../test-runner");
 
 module.exports = (app) => {
-  
   app.route("/_api/server.js").get((req, res, next) => {
     console.log("requested");
-    fs.readFile(__dirname + "/server.js", (err, data) => {
-      if (err) return next(err);
-      res.send(data.toString());
-    });
+    fs.readFile(__dirname + "/server.js", (err, data) => err ? next(err) : res.send(data.toString()));
   });
 
   app.route("/_api/routes/api.js").get((req, res, next) => {
     console.log("requested");
-    fs.readFile(__dirname + "/routes/api.js", (err, data) => {
-      if (err) return next(err);
-      res.type("txt").send(data.toString());
-    });
+    fs.readFile(__dirname + "/routes/api.js", (err, data) => err ? next(err) : res.type("txt").send(data.toString()));
   });
 
   app.route("/_api/controllers/convertHandler.js").get((req, res, next) => {
     console.log("requested");
-    fs.readFile(__dirname + "/controllers/convertHandler.js", (err, data) => {
-      if (err) return next(err);
-      res.type("txt").send(data.toString());
-    });
+    fs.readFile(__dirname + "/controllers/convertHandler.js", (err, data) => (err) ? next(err) : res.type("txt").send(data.toString()));
   });
 
   app.get(
@@ -42,13 +32,7 @@ module.exports = (app) => {
       !runner.report
         ? next()
         : res.json(testFilter(runner.report, req.query.type, req.query.n)),
-    (req, res) => {
-      runner.on("done", (report) =>
-        process.nextTick(() =>
-          res.json(testFilter(runner.report, req.query.type, req.query.n))
-        )
-      );
-    }
+    (req, res) => runner.on("done", (report) => process.nextTick(() => res.json(testFilter(runner.report, req.query.type, req.query.n))))
   );
 
   app.get("/_api/app-info", (req, res) => {

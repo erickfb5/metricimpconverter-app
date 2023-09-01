@@ -5,22 +5,22 @@ const Mocha = require("mocha");
 const fs = require("fs");
 const path = require("path");
 
-let mocha = new Mocha();
-let testDir = "./tests";
+const mocha = new Mocha();
+const testDir = "./tests";
 
 // Add each .js file to the mocha instance
 fs.readdirSync(testDir)
   .filter((file) => file.substr(-3) === ".js") // Only keep the .js files
   .forEach((file) => mocha.addFile(path.join(testDir, file)));
 
-let emitter = new EventEmitter();
+const emitter = new EventEmitter();
 emitter.run = () => {
-  let tests = [];
+  const tests = [];
   let context = "";
-  let separator = " -> ";
+  const separator = " -> ";
   // Run the tests.
   try {
-    let runner = mocha
+    const runner = mocha
       .ui("tdd")
       .run()
       .on("test end", (test) => {
@@ -40,10 +40,7 @@ emitter.run = () => {
         emitter.emit("done", tests);
       })
       .on("suite", (s) => (context += s.title + separator))
-      .on(
-        "suite end",
-        (s) =>
-          (context = context.slice(0, -(s.title.length + separator.length)))
+      .on("suite end",(s) =>(context = context.slice(0, -(s.title.length + separator.length)))
       );
   } catch (e) {
     throw e;
